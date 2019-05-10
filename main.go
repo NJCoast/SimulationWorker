@@ -266,6 +266,8 @@ func main() {
 				continue
 			}
 
+			exec.Command("node", "convert.js").Run()
+
 			// Upload Result
 			log.Println("Upload Results")
 			if currentJob.Tide == -1 && currentJob.Analysis == -1 {
@@ -276,10 +278,12 @@ func main() {
 				if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/wind_heatmap.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/wind_heatmap.json").Run(); err != nil {
 					log.Fatalln(err)
 				}
+				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/wind.geojson", "s3://simulation.njcoast.us/"+currentJob.Folder+"/wind.geojson").Run()
 
 				if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/surge_line.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/surge_line.json").Run(); err != nil {
 					log.Fatalln(err)
 				}
+				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/surge.geojson", "s3://simulation.njcoast.us/"+currentJob.Folder+"/surge.geojson").Run()
 
 				if params.StormType == 1 {
 					if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/transect_line.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/transect_line.json").Run(); err != nil {
@@ -294,10 +298,12 @@ func main() {
 				if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/wind_heatmap.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/wind_heatmap"+currentJob.toString()+".json").Run(); err != nil {
 					log.Fatalln(err)
 				}
+				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/wind.geojson", "s3://simulation.njcoast.us/"+currentJob.Folder+"/wind"+currentJob.toString()+".geojson").Run()
 
 				if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/surge_line.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/surge_line"+currentJob.toString()+".json").Run(); err != nil {
 					log.Fatalln(err)
 				}
+				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/surge.geojson", "s3://simulation.njcoast.us/"+currentJob.Folder+"/surge"+currentJob.toString()+".geojson").Run()
 
 				if params.StormType == 1 {
 					if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/transect_line.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/transect_line"+currentJob.toString()+".json").Run(); err != nil {
