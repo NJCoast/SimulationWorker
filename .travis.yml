@@ -3,8 +3,8 @@ language: minimal
 services:
 - docker
 before_install:
-- if [ -z "$TRAVIS_TAG" ]; pip install awscli --upgrade --user
-- if [ -z "$TRAVIS_TAG" ]; eval $(aws ecr get-login --region us-east-1 --no-include-email)
+- if [ -z "$TRAVIS_TAG" ]; then pip install awscli --upgrade --user; fi
+- if [ -z "$TRAVIS_TAG" ]; then eval $(aws ecr get-login --region us-east-1 --no-include-email); fi
 script:
 - docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH .
 - if [ -z "$TRAVIS_TAG" ]; then docker push 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH; fi
