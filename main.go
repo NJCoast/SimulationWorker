@@ -59,7 +59,7 @@ type Parameters struct {
 	Tide         float64    `json:"tide"`
 	Protection   int        `json:"protection"`
 	Strength     int        `json:"ne_strength"`
-	StormType    int        `json:"sim_type"`
+	StormType    int        `json:"indicator"`
 	SurgeOut     string     `json:"surge_file"`
 	WindOut      string     `json:"wind_file"`
 	RunupOut     string     `json:"runup_file"`
@@ -266,7 +266,9 @@ func main() {
 				continue
 			}
 
-			exec.Command("node", "convert.js").Run()
+			convCommand := exec.Command("node", "/root/convert.js")
+			convCommand.Dir = "/app"
+			convCommand.Run()
 
 			// Upload Result
 			log.Println("Upload Results")
@@ -284,6 +286,7 @@ func main() {
 					log.Fatalln(err)
 				}
 				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/surge.geojson", "s3://simulation.njcoast.us/"+currentJob.Folder+"/surge.geojson").Run()
+				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/track.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/track.geojson").Run()
 
 				if params.StormType == 1 {
 					if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/transect_line.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/transect_line.json").Run(); err != nil {
@@ -304,6 +307,7 @@ func main() {
 					log.Fatalln(err)
 				}
 				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/surge.geojson", "s3://simulation.njcoast.us/"+currentJob.Folder+"/surge"+currentJob.toString()+".geojson").Run()
+				exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/track.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/track"+currentJob.toString()+".geojson").Run()
 
 				if params.StormType == 1 {
 					if err := exec.Command("aws", "s3", "cp", "--acl", "public-read", "/app/transect_line.json", "s3://simulation.njcoast.us/"+currentJob.Folder+"/transect_line"+currentJob.toString()+".json").Run(); err != nil {
