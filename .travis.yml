@@ -3,11 +3,13 @@ language: minimal
 services:
 - docker
 script:
+- pip install awscli --upgrade --user 
+- eval $(aws ecr get-login --region us-east-1 --no-include-email) 
 - docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH .
 
 deploy:
   provider: script
-  script: pip install awscli --upgrade --user && eval $(aws ecr get-login --region us-east-1 --no-include-email) && docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH .
+  script: docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH .
   if: tag IS present
 
 env:
