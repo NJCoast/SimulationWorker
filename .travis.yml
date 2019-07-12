@@ -1,13 +1,13 @@
-if: tag IS present
 sudo: required
+language: minimal
 services:
 - docker
 before_install:
-- pip install awscli --upgrade --user
-- eval $(aws ecr get-login --region us-east-1 --no-include-email)
+- if [ -z "$TRAVIS_TAG" ]; pip install awscli --upgrade --user
+- if [ -z "$TRAVIS_TAG" ]; eval $(aws ecr get-login --region us-east-1 --no-include-email)
 script:
-- docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_TAG .
-- docker push 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_TAG
+- docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH .
+- if [ -z "$TRAVIS_TAG" ]; then docker push 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH; fi
 env:
   global:
   - secure: jz4+2pWtwC5cYDYEuc/MtWxhL8mGup9Wfw0hon0x9xpAH+qPt+MhX3QYal8u4rXjCv9yaFr7S16VJ5vH5X+VTpLIaqqqAYZDmjRBg+QAX60kB1r36uqi8nQpwQMKRWDZC2Rr6Nq2NZ114uzj2kgiNjZoFty5b1ArMBJXqcGkf1TuEl2MfN+55hyAjSMwK6DPWDNAcb8QuqySenIjKCi3AxLIDwTv9b6sFiZsw1gGeRWCr46aAULgMLw9B18PUuTBLrmuQIR5npZInHDB1XbM/9LKCKUO8i9gFfaHGsG1flpgur+74+wNO8PwGLETTwiKIHQmgn0vqKPGOWGtpftPTKYL1VQauTNfzB526Les2BAf/gVc6Sbnli7WRi8Ac2PNZhs6AcF7FmFCDlwug0Q010AKY+15lZectWcrijAmQCLB7ctJvD/2QZ7DOHTmuMRPHGzUdwXsfj/HzTK2HJl9ykdC7/ccz+QnNfmEF4oIcqCBXhlpwOezxhXXXCIfj2vxPymQ/9hhKFMftqA9q68qI1l1pKo5mr+rraZThIJn7Ssq9WWiPvEDmD9yWfNo7H9CoVcqGiHJkt/e/4eopuwHNyWTJGa2YrB4Z1/tvK7iwQC4kSXNQHgAj7SvXy56NbeNbZwxuhL0vVEVPpVFDUD5pXx+HXx2RMvuyH/Am3Q7r44=
