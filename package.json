@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
-    "unzipper": "^0.9.11"
+    "unzipper": "^0.9.11",
+    "fstream": ">=1.0.12"
   }
 }
