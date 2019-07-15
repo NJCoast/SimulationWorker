@@ -15,6 +15,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+// The Job structure holds all of the specified modifiable simulation parameters
 type Job struct {
 	ID       string  `json:"string"`
 	Folder   string  `json:"folder"`
@@ -23,6 +24,7 @@ type Job struct {
 	Analysis int     `json:"analysis"`
 }
 
+// toString takes the job's parameters and generates a unique string to reference it with
 func (j *Job) toString() string {
 	retVal := fmt.Sprintf("__slr_%d", int(j.SLR*10))
 
@@ -47,6 +49,7 @@ func (j *Job) toString() string {
 	return retVal
 }
 
+// The Parameters structure matches the on-disk JSON input file format for model execution
 type Parameters struct {
 	IndexSLT     [2]int     `json:"index_SLT"`
 	IndexW       int        `json:"index_W"`
