@@ -9,7 +9,7 @@ script:
 
 deploy:
   provider: script
-  script: docker build -t 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH .
+  script: docker push 234514569215.dkr.ecr.us-east-1.amazonaws.com/queue-worker:$TRAVIS_BRANCH
   if: tag IS present
 
 env:
