@@ -20,6 +20,7 @@ type Job struct {
 	ID       string  `json:"string"`
 	Folder   string  `json:"folder"`
 	SLR      float64 `json:"slr"`
+	Protection int	`json:"protection"`
 	Tide     int     `json:"tide"`
 	Analysis int     `json:"analysis"`
 }
@@ -44,6 +45,15 @@ func (j *Job) toString() string {
 		retVal += "__analysis_expected"
 	case 2:
 		retVal += "__analysis_extreme"
+	}
+
+	switch j.Protection {
+	case 1:
+		retVal += "__protection_current"
+	case 2:
+		retVal += "__protection_degraded"
+	case 3:
+		retVal += "__protection_compromised"
 	}
 
 	return retVal
@@ -222,6 +232,7 @@ func main() {
 				// Modify Parameters
 				params.SeaLevelRize = currentJob.SLR
 				params.Tide = 0.5 * float64(currentJob.Tide)
+				params.Protection = currentJob.Protection
 
 				switch currentJob.Analysis {
 				case 0:
