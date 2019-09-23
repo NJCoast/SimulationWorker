@@ -6,7 +6,7 @@ RUN go get github.com/gorilla/websocket
 COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o SimulationWorker .
 
-FROM 234514569215.dkr.ecr.us-east-1.amazonaws.com/model:1.25
+FROM 234514569215.dkr.ecr.us-east-1.amazonaws.com/model:1.26
 WORKDIR /root/
 COPY convert.js .
 COPY package.json .
